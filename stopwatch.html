@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stopwatch</title>
+    <!-- styles -->
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+      }
+
+      #stopwatch {
+        font-size: 50px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      button {
+        font-size: 20px;
+        padding: 10px 20px;
+        margin: 10px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #333;
+        color: #fff;
+      }
+
+      button:active {
+        transform: scale(0.95);
+      }
+
+      button:focus {
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- stopwatch -->
+    <div style="display: flex; flex-direction: column; align-items: center">
+      <div id="stopwatch">00:00:00.000</div>
+      <!-- buttons -->
+      <div style="display: flex; margin-top: 20px">
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="reset">Reset</button>
+      </div>
+    </div>
+    <!-- script -->
+    <script>
+      const stopwatch = document.getElementById("stopwatch");
+      const start = document.getElementById("start");
+      const stop = document.getElementById("stop");
+      const reset = document.getElementById("reset");
+
+      let startTime;
+      let elapsedTime = 0;
+      let timerId;
+
+      function updateTime() {
+        elapsedTime = Date.now() - startTime;
+        const time = new Date(elapsedTime);
+        const hours = time.getUTCHours();
+        const minutes = time.getUTCMinutes();
+        const seconds = time.getUTCSeconds();
+        const milliseconds = time.getUTCMilliseconds();
+
+        const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+          .toString()
+          .padStart(2, "0")}:${seconds
+          .toString()
+          .padStart(2, "0")}.${milliseconds.toString().padStart(3, "0")}`;
+
+        stopwatch.textContent = formattedTime;
+      }
+
+      start.addEventListener("click", () => {
+        startTime = Date.now() - elapsedTime;
+        timerId = setInterval(updateTime, 10); // Update every 10ms for smoother millisecond display
+      });
+
+      stop.addEventListener("click", () => {
+        clearInterval(timerId);
+      });
+
+      reset.addEventListener("click", () => {
+        clearInterval(timerId);
+        elapsedTime = 0;
+        stopwatch.textContent = "00:00:00.000";
+      });
+    </script>
+  </body>
+</html>
