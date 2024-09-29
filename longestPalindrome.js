@@ -16,7 +16,7 @@ function longestPalindrome(s) {
       left--;
       right++;
     }
-
+    // techechesolene
     // Check for even-length palindromes
     left = i;
     right = i + 1;

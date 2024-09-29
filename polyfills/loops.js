@@ -27,3 +27,8 @@ if (!Array.prototype.map) {
     return A;
   };
 }
+
+// flat polyfill
+// Array.prototype.flat = function(callback, thisArg) {
+
+// }
