@@ -44,17 +44,29 @@ const obj = [
 let output = {};
 
 obj.forEach((objItem) => {
-    if(output[objItem.key]) {
-        output[objItem.key].push(objItem)
-    }else{
-        output[objItem.key] = [{
-            ...objItem,
-        }]
-        
-    }
-})
+  if (output[objItem.key]) {
+    output[objItem.key].push(objItem);
+  } else {
+    output[objItem.key] = [
+      {
+        ...objItem,
+      },
+    ];
+  }
+});
 
 // sol via reduce method
+const Redoutput = obj.reduce((acc, curr) => {
+  if (acc[curr.key]) {
+    acc[curr.key].push(curr);
+  } else {
+    acc[curr.key] = [
+      {
+        ...curr,
+      },
+    ];
+  }
+  return acc;
+}, {});
 
-
-console.log(output)
+console.log(output);
