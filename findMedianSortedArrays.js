@@ -16,25 +16,36 @@ function findMedianSortedArrays(nums1, nums2) {
     const partitionX = Math.floor((low + high) / 2);
     const partitionY = Math.floor((m + n + 1) / 2) - partitionX;
 
-    const maxX = partitionX === 0 ? -Infinity : nums1[partitionX - 1];
-    const maxY = partitionY === 0 ? -Infinity : nums2[partitionY - 1];
+    const { maxX, maxY, minX, minY } = getPartitionValues(
+      nums1,
+      nums2,
+      partitionX,
+      partitionY
+    );
 
-    const minX = partitionX === m ? Infinity : nums1[partitionX];
-    const minY = partitionY === n ? Infinity : nums2[partitionY];
     if (maxX <= minY && maxY <= minX) {
-      // We have partitioned correctly
-      if ((m + n) % 2 === 0) {
-        return (Math.max(maxX, maxY) + Math.min(minX, minY)) / 2;
-      } else {
-        return Math.max(maxX, maxY);
-      }
+      return calculateMedian(m, n, maxX, maxY, minX, minY);
     } else if (maxX > minY) {
-      // Too far on the right side for partitionX, go left
       high = partitionX - 1;
     } else {
-      // Too far on the left side for partitionX, go right
       low = partitionX + 1;
     }
+  }
+}
+
+function getPartitionValues(nums1, nums2, partitionX, partitionY) {
+  const maxX = partitionX === 0 ? -Infinity : nums1[partitionX - 1];
+  const maxY = partitionY === 0 ? -Infinity : nums2[partitionY - 1];
+  const minX = partitionX === nums1.length ? Infinity : nums1[partitionX];
+  const minY = partitionY === nums2.length ? Infinity : nums2[partitionY];
+  return { maxX, maxY, minX, minY };
+}
+
+function calculateMedian(m, n, maxX, maxY, minX, minY) {
+  if ((m + n) % 2 === 0) {
+    return (Math.max(maxX, maxY) + Math.min(minX, minY)) / 2;
+  } else {
+    return Math.max(maxX, maxY);
   }
 }
 
